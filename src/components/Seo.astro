@@ -1,0 +1,168 @@
+---
+import { site, absoluteUrl } from "../data/site";
+import { menuCategories } from "../data/menu";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = `${site.name} | Pastes gourmet en Oaxaca`,
+  description = site.description,
+  image = "/og-image.jpg",
+} = Astro.props;
+
+const canonical = absoluteUrl(Astro.url.pathname);
+const imageUrl = absoluteUrl(image);
+const themeColor = "#4a6b8a";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${site.url}/#website`,
+      url: `${site.url}/`,
+      name: site.name,
+      description: site.description,
+      inLanguage: site.language,
+      publisher: { "@id": `${site.url}/#business` },
+    },
+    {
+      "@type": ["Bakery", "FoodEstablishment"],
+      "@id": `${site.url}/#business`,
+      name: site.name,
+      alternateName: site.shortName,
+      description: site.description,
+      url: `${site.url}/`,
+      image: [absoluteUrl("/logo.png"), imageUrl, absoluteUrl("/fotos/fachada.jpg")],
+      logo: absoluteUrl("/android-chrome-512x512.png"),
+      telephone: `+${site.whatsapp.number}`,
+      priceRange: "$",
+      servesCuisine: ["Mexicana", "Oaxaqueña", "Pastes"],
+      slogan: site.tagline,
+      areaServed: {
+        "@type": "City",
+        name: "Oaxaca de Juárez",
+        containedInPlace: { "@type": "State", name: "Oaxaca" },
+      },
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Oaxaca de Juárez",
+        addressRegion: "Oaxaca",
+        addressCountry: "MX",
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: site.locations[0].lat,
+        longitude: site.locations[0].lng,
+      },
+      hasMap: site.locations[0].mapUrl,
+      openingHours: site.locations.map((location) => location.hoursSchema),
+      sameAs: [site.instagram, site.facebook],
+      menu: `${site.url}/#menu`,
+      hasMenu: {
+        "@type": "Menu",
+        name: `Menú de ${site.name}`,
+        hasMenuSection: menuCategories.map((category) => ({
+          "@type": "MenuSection",
+          name: category.title,
+          hasMenuItem: category.items.map((item) => ({
+            "@type": "MenuItem",
+            name: item.name,
+            description: item.description,
+            offers: item.price
+              ? {
+                  "@type": "Offer",
+                  price: item.price,
+                  priceCurrency: "MXN",
+                }
+              : undefined,
+          })),
+        })),
+      },
+      department: site.locations.map((location) => ({
+        "@type": "FoodEstablishment",
+        name: location.name,
+        image: absoluteUrl("/fotos/fachada.jpg"),
+        telephone: `+${site.whatsapp.number}`,
+        url: location.mapUrl,
+        hasMap: location.mapUrl,
+        openingHours: location.hoursSchema,
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: location.lat,
+          longitude: location.lng,
+        },
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Oaxaca de Juárez",
+          addressRegion: "Oaxaca",
+          addressCountry: "MX",
+        },
+      })),
+    },
+  ],
+};
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="keywords" content={site.keywords.join(", ")} />
+<meta name="author" content={site.name} />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta name="googlebot" content="index, follow" />
+<link rel="canonical" href={canonical} />
+<link rel="alternate" hreflang="es-MX" href={canonical} />
+<link rel="alternate" hreflang="es" href={canonical} />
+<link rel="alternate" hreflang="x-default" href={canonical} />
+
+<meta property="og:type" content="website" />
+<meta property="og:locale" content={site.locale} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={`${site.name} — ${site.tagline}`} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+<meta name="twitter:image:alt" content={`${site.name} — pastes gourmet en Oaxaca`} />
+
+<meta name="theme-color" content={themeColor} />
+<meta name="msapplication-TileColor" content={themeColor} />
+<meta name="msapplication-TileImage" content="/mstile-150x150.png" />
+<meta name="msapplication-config" content="/browserconfig.xml" />
+<meta name="color-scheme" content="light" />
+<meta name="format-detection" content="telephone=yes" />
+<meta name="geo.region" content="MX-OAX" />
+<meta name="geo.placename" content={site.city} />
+<meta name="geo.position" content={`${site.locations[0].lat};${site.locations[0].lng}`} />
+<meta name="ICBM" content={`${site.locations[0].lat}, ${site.locations[0].lng}`} />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content={site.shortName} />
+<meta name="application-name" content={site.shortName} />
+<meta name="mobile-web-app-capable" content="yes" />
+
+<link rel="icon" href="/favicon.ico" sizes="48x48" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png" />
+<link rel="apple-touch-icon" sizes="167x167" href="/apple-touch-icon-167x167.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

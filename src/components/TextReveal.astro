@@ -1,0 +1,89 @@
+---
+interface Props {
+  text: string;
+  highlight?: string[];
+  class?: string;
+}
+
+const { text, highlight = [], class: className = "" } = Astro.props;
+
+const normalize = (value: string) => value.replace(/[.,;:¿?¡!"]/g, "").toLowerCase();
+const highlighted = new Set(highlight.map(normalize));
+const words = text.split(/\s+/).filter(Boolean);
+---
+
+<p class:list={["text-reveal", className]} data-text-reveal>
+  {
+    words.map((word) => (
+      <span
+        class:list={[
+          "text-reveal__word",
+          highlighted.has(normalize(word)) && "text-reveal__word--strong",
+        ]}
+      >
+        {word}
+      </span>
+    ))
+  }
+</p>
+
+<style>
+  .text-reveal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.28em;
+  }
+
+  .text-reveal__word {
+    opacity: 0.2;
+    transition: opacity 0.25s ease-out;
+  }
+
+  .text-reveal__word--strong {
+    font-weight: 700;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .text-reveal__word {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  const blocks = document.querySelectorAll("[data-text-reveal]");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (blocks.length && !reduceMotion) {
+    const update = () => {
+      blocks.forEach((block) => {
+        const words = block.querySelectorAll<HTMLElement>(".text-reveal__word");
+        const rect = block.getBoundingClientRect();
+        const start = window.innerHeight * 0.85;
+        const end = window.innerHeight * 0.25;
+        const progress = (start - rect.top) / (start - end + rect.height);
+        const clamped = Math.min(Math.max(progress, 0), 1);
+        const revealed = clamped * words.length;
+
+        words.forEach((word, index) => {
+          const value = Math.min(Math.max(revealed - index, 0), 1);
+          word.style.opacity = String(0.2 + value * 0.8);
+        });
+      });
+    };
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        update();
+        ticking = false;
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    update();
+  }
+</script>

@@ -1,0 +1,63 @@
+---
+import { whatsappUrl } from "../data/site";
+
+const benefits = [
+  {
+    title: "Marca lista",
+    desc: "Identidad visual, recetas y experiencia de local para abrir con la esencia de Nonna.",
+  },
+  {
+    title: "Acompañamiento",
+    desc: "Te guiamos en operación, menú y el día a día para que tu sucursal arranque con confianza.",
+  },
+  {
+    title: "Producto con corazón",
+    desc: "Pastes gourmet con público fiel. Lleva a tu ciudad un sabor oaxaqueño que se pide de nuevo.",
+  },
+];
+---
+
+<section id="franquicias" class="py-20 sm:py-28 bg-nona-blue text-cream">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <div data-reveal="left">
+        <p class="font-serif text-sm tracking-[0.3em] uppercase text-cream/70 mb-3">
+          Franquicias
+        </p>
+        <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
+          Lleva el sabor de
+          <span class="font-script text-4xl sm:text-5xl lg:text-6xl font-normal">Nonna</span>
+          <br />
+          a tu ciudad
+        </h2>
+        <p class="text-cream/75 lg:text-lg leading-relaxed mb-8 max-w-lg">
+          Queremos llevar el espíritu de Oaxaca a cada rincón del país. Si te interesa
+          emprender con una marca artesanal, gourmet y con identidad propia, platiquemos.
+        </p>
+        <a
+          href={whatsappUrl("Hola, me interesa información sobre franquicias de Los Pastes de Nonna")}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 bg-cream text-nona-blue px-8 py-4 rounded-full font-medium hover:bg-cream-dark transition-colors"
+        >
+          Quiero una franquicia
+        </a>
+      </div>
+
+      <div class="grid gap-4">
+        {
+          benefits.map((item, index) => (
+            <article
+              data-reveal="right"
+              style={`--reveal-delay: ${index * 110}ms`}
+              class="rounded-2xl border border-cream/15 bg-cream/5 p-6 lg:p-8"
+            >
+              <h3 class="font-serif text-xl lg:text-2xl font-semibold mb-2">{item.title}</h3>
+              <p class="text-sm lg:text-base text-cream/70 leading-relaxed">{item.desc}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

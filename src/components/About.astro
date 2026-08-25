@@ -1,0 +1,90 @@
+---
+import { photos } from "../data/photos";
+
+const values = [
+  {
+    n: "01",
+    title: "Calidad",
+    desc: "En cada ingrediente y en cada preparación. Pastes gourmet con recetas únicas.",
+  },
+  {
+    n: "02",
+    title: "Innovación",
+    desc: "Combinaciones nuevas —como el paste estrella de carne árabe— sin perder la esencia.",
+  },
+  {
+    n: "03",
+    title: "Autenticidad",
+    desc: "Raíces oaxaqueñas que se encuentran en el chocolate, en el mole y en lo hecho a mano.",
+  },
+  {
+    n: "04",
+    title: "Pasión",
+    desc: "Amor, dedicación y una sonrisa en cada preparación y en cada atención.",
+  },
+];
+---
+
+<section id="nosotros" class="py-20 sm:py-28 bg-cream-dark/50">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <div class="relative order-2 lg:order-1" data-reveal="left">
+        <div class="aspect-[4/5] rounded-3xl overflow-hidden border border-nona-blue/15">
+          <img
+            src={photos.about.src}
+            alt={photos.about.alt}
+            class="w-full h-full object-cover"
+          />
+        </div>
+        <div class="absolute -bottom-4 -right-4 bg-nona-blue text-cream px-6 py-4 rounded-2xl shadow-lg">
+          <p class="font-script text-2xl">Hecho en Oaxaca</p>
+          <p class="text-xs uppercase tracking-widest opacity-80">Corazón oaxaqueño</p>
+        </div>
+      </div>
+
+      <div class="order-1 lg:order-2" data-reveal="right">
+        <p class="font-serif text-sm tracking-[0.3em] uppercase text-nona-blue mb-3">
+          Nuestra historia
+        </p>
+        <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-nona-blue mb-6 leading-tight">
+          Cada paste cuenta<br />
+          <span class="font-script text-4xl sm:text-5xl lg:text-6xl font-normal">
+            una historia
+          </span>
+        </h2>
+        <div class="space-y-4 text-nona-blue/80 lg:text-lg leading-relaxed">
+          <p>
+            <strong class="text-nona-blue">Los Pastes de Nonna</strong> es un negocio oaxaqueño
+            que nace del amor por la comida, del gusto de servir y de entender el ritmo del
+            día a día. Representamos más que un alimento: la combinación de sabor, creatividad
+            y el toque gourmet que nuestra chef pone en cada receta.
+          </p>
+          <p>
+            Conservamos nuestras raíces —en el chocolate, en el mole— y también innovamos.
+            Un ejemplo es nuestro paste estrella de carne árabe. Queremos que cada persona
+            que pruebe un paste reconozca nuestra esencia y sienta la pasión por hacer las
+            cosas bien.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-16 lg:mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+      {
+        values.map((item, index) => (
+          <article
+            data-reveal
+            style={`--reveal-delay: ${index * 80}ms`}
+            class="rounded-2xl border border-nona-blue/10 bg-cream/70 p-6"
+          >
+            <p class="font-serif text-sm tracking-[0.25em] text-nona-blue/45 mb-4">{item.n}</p>
+            <h3 class="font-serif text-xl lg:text-2xl font-semibold text-nona-blue mb-2">
+              {item.title}
+            </h3>
+            <p class="text-sm text-nona-blue/65 leading-relaxed">{item.desc}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

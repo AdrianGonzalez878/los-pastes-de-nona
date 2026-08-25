@@ -1,0 +1,49 @@
+---
+import { testimonials } from "../data/testimonials";
+
+const half = Math.ceil(testimonials.length / 2);
+const rows = [testimonials.slice(0, half), testimonials.slice(half)];
+---
+
+<section id="testimonios" class="py-20 sm:py-28 overflow-hidden">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center mb-12" data-reveal>
+    <p class="font-serif text-sm tracking-[0.3em] uppercase text-nona-blue mb-3">
+      Testimonios
+    </p>
+    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-nona-blue">
+      Lo que dicen de
+      <span class="font-script text-4xl sm:text-5xl lg:text-6xl font-normal"> Nonna </span>
+    </h2>
+  </div>
+
+  <div class="marquee relative space-y-4" data-reveal="fade">
+    <div
+      class="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-32 z-10 bg-gradient-to-r from-cream to-transparent"
+    >
+    </div>
+    <div
+      class="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-32 z-10 bg-gradient-to-l from-cream to-transparent"
+    >
+    </div>
+
+    {
+      rows.map((row, rowIndex) => (
+        <div class="relative">
+          <div
+            class:list={["marquee-track gap-4", rowIndex === 1 && "marquee-track--reverse"]}
+            style={`--marquee-duration: ${rowIndex === 0 ? 42 : 52}s`}
+          >
+            {[...row, ...row].map((item) => (
+              <figure class="w-72 sm:w-80 lg:w-96 shrink-0 bg-cream-dark/60 border border-nona-blue/10 rounded-2xl p-6 lg:p-8">
+                <blockquote class="font-serif text-lg lg:text-xl text-nona-blue leading-snug">
+                  “{item.quote}”
+                </blockquote>
+                <figcaption class="text-sm text-nona-blue/60 mt-3">{item.author}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

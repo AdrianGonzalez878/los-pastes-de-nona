@@ -1,0 +1,44 @@
+---
+import { photos } from "../data/photos";
+---
+
+<section id="galeria" class="py-20 sm:py-28 bg-nona-blue text-cream">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-14" data-reveal>
+      <p class="font-serif text-sm tracking-[0.3em] uppercase text-cream/70 mb-3">
+        Galería
+      </p>
+      <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+        Momentos y
+        <span class="font-script text-4xl sm:text-5xl lg:text-6xl font-normal">sabores</span>
+      </h2>
+      <p class="text-cream/70 lg:text-lg max-w-2xl mx-auto">
+        El espíritu trabajador, alegre y acogedor de Oaxaca, en cada relleno y en cada visita.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+      {
+        photos.gallery.map((photo, index) => (
+          <figure
+            data-reveal
+            style={`--reveal-delay: ${index * 90}ms`}
+            class:list={[
+              "overflow-hidden rounded-2xl border border-cream/15",
+              photo.featured && "col-span-2 row-span-2",
+            ]}
+          >
+            <img
+              src={photo.src}
+              alt={photo.alt}
+              class:list={[
+                "w-full h-full object-cover hover:scale-105 transition-transform duration-500",
+                photo.featured ? "aspect-square md:aspect-auto min-h-full" : "aspect-square",
+              ]}
+            />
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,16 @@
+---
+import TextReveal from "./TextReveal.astro";
+
+const statement =
+  "Somos Los Pastes de Nonna: sabor, innovación y corazón oaxaqueño en cada relleno. Cada paste cuenta una historia y cada cliente se convierte en parte de ella.";
+---
+
+<section class="bg-nona-blue text-cream py-28 sm:py-40">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6">
+    <TextReveal
+      text={statement}
+      highlight={["Nonna:", "sabor,", "innovación", "corazón", "historia"]}
+      class="font-serif text-3xl sm:text-4xl lg:text-5xl leading-snug justify-center text-center"
+    />
+  </div>
+</section>

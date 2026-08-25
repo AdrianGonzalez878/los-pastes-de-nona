@@ -1,0 +1,34 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SmoothScroll from "../components/SmoothScroll.astro";
+import ScrollReveal from "../components/ScrollReveal.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Statement from "../components/Statement.astro";
+import About from "../components/About.astro";
+import Menu from "../components/Menu.astro";
+import Gallery from "../components/Gallery.astro";
+import Testimonials from "../components/Testimonials.astro";
+import Location from "../components/Location.astro";
+import Franchises from "../components/Franchises.astro";
+import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout>
+  <SmoothScroll />
+  <ScrollReveal />
+  <Header />
+  <main id="contenido">
+    <Hero />
+    <Statement />
+    <About />
+    <Menu />
+    <Gallery />
+    <Testimonials />
+    <Location />
+    <Franchises />
+    <Contact />
+  </main>
+  <Footer />
+</BaseLayout>

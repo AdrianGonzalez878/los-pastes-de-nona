@@ -1,0 +1,159 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Dancing+Script:wght@500;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #f2ebd9;
+  --color-cream-dark: #e8dfc8;
+  --color-nona-blue: #4a6b8a;
+  --color-nona-blue-dark: #3a5570;
+  --color-nona-blue-light: #6b8aab;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-script: "Dancing Script", cursive;
+  --font-sans: "Source Sans 3", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-cream);
+  color: var(--color-nona-blue-dark);
+}
+
+::selection {
+  background-color: var(--color-nona-blue);
+  color: var(--color-cream);
+}
+
+[id] {
+  scroll-margin-top: 6rem;
+}
+
+/* Dancing Script tiene bearings negativos y se encima con la palabra previa. */
+.font-script {
+  padding-inline-start: 0.14em;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-left var(--marquee-duration, 45s) linear infinite;
+}
+
+.marquee-track--reverse {
+  animation-name: marquee-right;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(2.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.js [data-reveal],
+.js [data-reveal-eager] {
+  opacity: 0;
+}
+
+.js [data-reveal] {
+  transform: translateY(2.25rem);
+  transition:
+    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js [data-reveal="left"] {
+  transform: translateX(-2.5rem);
+}
+
+.js [data-reveal="right"] {
+  transform: translateX(2.5rem);
+}
+
+.js [data-reveal="scale"] {
+  transform: scale(0.94);
+}
+
+.js [data-reveal="fade"] {
+  transform: none;
+}
+
+.js [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+.js [data-reveal-eager] {
+  animation: reveal-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+.js [data-reveal-eager="scale"] {
+  animation-name: reveal-scale;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal],
+  .js [data-reveal-eager] {
+    opacity: 1;
+    transform: none;
+    animation: none;
+    transition: none;
+  }
+}

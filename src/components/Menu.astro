@@ -1,0 +1,176 @@
+---
+import { menuCategories, formatPrice } from "../data/menu";
+import { photos } from "../data/photos";
+import { whatsappUrl } from "../data/site";
+---
+
+<section id="menu" class="py-20 sm:py-28">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-14" data-reveal>
+      <p class="font-serif text-sm tracking-[0.3em] uppercase text-nona-blue mb-3">
+        Nuestros sabores
+      </p>
+      <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-nona-blue mb-4">
+        El menú de
+        <span class="font-script text-4xl sm:text-5xl lg:text-6xl font-normal">Nonna</span>
+      </h2>
+      <p class="text-nona-blue/70 lg:text-lg max-w-2xl mx-auto">
+        Pastes gourmet con recetas únicas: de nuestras raíces en el mole al paste estrella
+        de carne árabe.
+      </p>
+    </div>
+
+    <div class="mb-14 rounded-3xl overflow-hidden border border-nona-blue/10" data-reveal>
+      <img
+        src={photos.menu.src}
+        alt={photos.menu.alt}
+        class="w-full h-56 sm:h-80 object-cover"
+        loading="lazy"
+      />
+    </div>
+  </div>
+
+  <div class="space-y-16">
+    {
+      menuCategories.map((category) => (
+        <div data-carousel data-reveal>
+          <div class="max-w-6xl mx-auto px-4 sm:px-6 mb-6 flex items-end justify-between gap-4">
+            <div>
+              <h3 class="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-nona-blue">
+                {category.title}
+              </h3>
+              {category.subtitle && (
+                <p class="text-nona-blue/60 mt-1">{category.subtitle}</p>
+              )}
+            </div>
+
+            <div class="hidden sm:flex lg:hidden gap-2 shrink-0">
+              <button
+                type="button"
+                data-carousel-prev
+                class="w-10 h-10 rounded-full border border-nona-blue/25 text-nona-blue flex items-center justify-center hover:bg-nona-blue hover:text-cream transition-colors"
+                aria-label={`Ver anteriores de ${category.title}`}
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+              <button
+                type="button"
+                data-carousel-next
+                class="w-10 h-10 rounded-full border border-nona-blue/25 text-nona-blue flex items-center justify-center hover:bg-nona-blue hover:text-cream transition-colors"
+                aria-label={`Ver siguientes de ${category.title}`}
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div
+            data-carousel-track
+            class="no-scrollbar flex gap-4 overflow-x-auto snap-x scroll-smooth pb-2 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible"
+            style="padding-inline: max(1rem, calc((100vw - 72rem) / 2 + 1.5rem)); scroll-padding-inline: max(1rem, calc((100vw - 72rem) / 2 + 1.5rem))"
+          >
+            {category.items.map((item) => (
+              <article
+                class:list={[
+                  "snap-start shrink-0 w-64 sm:w-72 lg:w-auto rounded-2xl border border-nona-blue/10 bg-cream-dark/60 p-6 lg:p-7 flex flex-col justify-between hover:border-nona-blue/30 hover:shadow-md transition-all duration-300",
+                  category.id === "estrella" &&
+                    "border-nona-blue/30 bg-nona-blue/10 lg:col-span-2",
+                ]}
+              >
+                <div>
+                  <div class="flex flex-wrap items-center gap-2 mb-2">
+                    <h4 class="font-serif text-lg lg:text-xl font-semibold text-nona-blue leading-snug">
+                      {item.name}
+                    </h4>
+                    {item.tag && (
+                      <span class="bg-nona-blue text-cream text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full">
+                        {item.tag}
+                      </span>
+                    )}
+                  </div>
+                  {item.description && (
+                    <p class="text-sm text-nona-blue/60 leading-relaxed">{item.description}</p>
+                  )}
+                </div>
+
+                <p class="mt-6">
+                  {item.price !== undefined ? (
+                    <span class="font-serif text-2xl font-bold text-nona-blue">
+                      {formatPrice(item.price)}
+                    </span>
+                  ) : (
+                    <span class="text-xs uppercase tracking-wider text-nona-blue/50">
+                      Consultar
+                    </span>
+                  )}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="mt-14 text-center px-4" data-reveal>
+    <a
+      href={whatsappUrl("Hola, quiero hacer un pedido de pastes")}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-2 bg-nona-blue text-cream px-8 py-4 rounded-full font-medium hover:bg-nona-blue-dark transition-colors"
+    >
+      Hacer pedido
+    </a>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((carousel) => {
+    const track = carousel.querySelector<HTMLElement>("[data-carousel-track]");
+    const prev = carousel.querySelector<HTMLButtonElement>("[data-carousel-prev]");
+    const next = carousel.querySelector<HTMLButtonElement>("[data-carousel-next]");
+    if (!track) return;
+
+    const step = () => track.clientWidth * 0.8;
+
+    prev?.addEventListener("click", () => {
+      track.scrollBy({ left: -step(), behavior: "smooth" });
+    });
+
+    next?.addEventListener("click", () => {
+      track.scrollBy({ left: step(), behavior: "smooth" });
+    });
+
+    const syncButtons = () => {
+      const maxScroll = track.scrollWidth - track.clientWidth - 1;
+      const atStart = track.scrollLeft <= 0;
+      const atEnd = track.scrollLeft >= maxScroll;
+      if (prev) {
+        prev.disabled = atStart;
+        prev.classList.toggle("opacity-30", atStart);
+      }
+      if (next) {
+        next.disabled = atEnd;
+        next.classList.toggle("opacity-30", atEnd);
+      }
+    };
+
+    track.addEventListener("scroll", syncButtons, { passive: true });
+    window.addEventListener("resize", syncButtons);
+    syncButtons();
+  });
+</script>

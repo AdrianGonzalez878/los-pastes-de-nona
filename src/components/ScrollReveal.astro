@@ -1,0 +1,75 @@
+<script>
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const items = document.querySelectorAll<HTMLElement>("[data-reveal]");
+
+  const reveal = (el: Element) => el.classList.add("is-revealed");
+
+  declare global {
+    interface Window {
+      lenis?: { on: (event: string, cb: () => void) => void };
+    }
+  }
+
+  if (!items.length) {
+    // nothing to animate
+  } else if (reduceMotion) {
+    items.forEach(reveal);
+  } else {
+    const inView = (el: Element) => {
+      const rect = el.getBoundingClientRect();
+      return rect.top < window.innerHeight * 0.88 && rect.bottom > 64;
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!inView(entry.target)) return;
+          reveal(entry.target);
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: [0, 0.12, 0.25],
+        rootMargin: "0px 0px -8% 0px",
+      },
+    );
+
+    const check = () => {
+      items.forEach((item) => {
+        if (item.classList.contains("is-revealed")) return;
+        if (inView(item)) {
+          reveal(item);
+          observer.unobserve(item);
+        }
+      });
+    };
+
+    items.forEach((item) => observer.observe(item));
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        check();
+        ticking = false;
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+
+    const bindLenis = () => {
+      if (window.lenis?.on) {
+        window.lenis.on("scroll", onScroll);
+        return;
+      }
+      requestAnimationFrame(bindLenis);
+    };
+    bindLenis();
+
+    check();
+    document.documentElement.dataset.revealReady = "true";
+  }
+</script>

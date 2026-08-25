@@ -1,0 +1,36 @@
+---
+import "../styles/global.css";
+import Seo from "../components/Seo.astro";
+import { site } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${site.name} | Pastes gourmet en Oaxaca`,
+  description = site.description,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <Seo title={title} description={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
+  </head>
+  <body class="antialiased">
+    <a
+      href="#contenido"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100] focus:bg-nona-blue focus:text-cream focus:px-4 focus:py-2 focus:rounded-full"
+    >
+      Saltar al contenido
+    </a>
+    <slot />
+  </body>
+</html>
