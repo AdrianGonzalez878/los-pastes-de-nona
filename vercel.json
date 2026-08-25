@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.lospastesdenonna.com" }],
+      "destination": "https://lospastesdenonna.com/:path*",
+      "permanent": true
+    }
+  ]
+}

@@ -9,7 +9,6 @@ export const site = {
   country: "México",
   locale: "es_MX",
   language: "es-MX",
-  /** Cambia esta URL cuando el sitio esté en línea. */
   url: "https://lospastesdenonna.com",
   keywords: [
     "pastes Oaxaca",
