@@ -9,7 +9,7 @@ export const site = {
   country: "México",
   locale: "es_MX",
   language: "es-MX",
-  url: "https://lospastesdenona.com",
+  url: "https://www.lospastesdenona.com",
   keywords: [
     "pastes Oaxaca",
     "pastes gourmet",

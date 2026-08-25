@@ -2,8 +2,8 @@
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.lospastesdenona.com" }],
-      "destination": "https://lospastesdenona.com/:path*",
+      "has": [{ "type": "host", "value": "lospastesdenona.com" }],
+      "destination": "https://www.lospastesdenona.com/:path*",
       "permanent": true
     }
   ]

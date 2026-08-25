@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lospastesdenona.com/sitemap.xml
+Sitemap: https://www.lospastesdenona.com/sitemap.xml
