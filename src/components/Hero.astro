@@ -34,7 +34,7 @@ const taglines = ["Sabor e innovación", "Corazón oaxaqueño", site.city];
     </div>
   </div>
 
-  <div class="relative flex-1 flex items-center justify-center px-4 sm:px-6 py-6">
+  <div class="relative flex-1 flex flex-col items-center justify-center px-4 sm:px-6 py-6">
     <div class="relative w-full max-w-2xl lg:max-w-4xl flex items-center justify-center">
       <div data-reveal-eager="scale" style="--reveal-delay: 180ms">
         <div
@@ -68,6 +68,21 @@ const taglines = ["Sabor e innovación", "Corazón oaxaqueño", site.city];
             {pasteCount} sabores
           </p>
         </div>
+      </div>
+    </div>
+
+    <div
+      class="sm:hidden flex flex-wrap justify-center gap-2 mt-5 w-full max-w-xs"
+      data-reveal-eager
+      style="--reveal-delay: 420ms"
+    >
+      <div class="bg-cream rounded-2xl px-4 py-2.5 shadow-xl rotate-2">
+        <p class="font-script text-xl text-nona-blue">¡Recién horneados!</p>
+      </div>
+      <div class="bg-nona-blue rounded-2xl px-4 py-2.5 shadow-xl -rotate-2">
+        <p class="font-serif text-xs uppercase tracking-[0.2em] text-cream">
+          {pasteCount} sabores
+        </p>
       </div>
     </div>
   </div>

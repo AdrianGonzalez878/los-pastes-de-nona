@@ -43,7 +43,7 @@ const navLinks = [
           href={site.instagram}
           target="_blank"
           rel="noopener noreferrer"
-          class="site-header__link p-2"
+          class="site-header__link hidden md:block p-2"
           aria-label="Síguenos en Instagram"
         >
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -56,7 +56,7 @@ const navLinks = [
           href={site.facebook}
           target="_blank"
           rel="noopener noreferrer"
-          class="site-header__link p-2"
+          class="site-header__link hidden md:block p-2"
           aria-label="Síguenos en Facebook"
         >
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -111,24 +111,6 @@ const navLinks = [
         </a>
       ))
     }
-    <div class="flex gap-3 pt-2">
-      <a
-        href={site.instagram}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="flex-1 text-center border border-nona-blue/20 text-nona-blue px-4 py-3 rounded-full text-sm font-medium"
-      >
-        Instagram
-      </a>
-      <a
-        href={site.facebook}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="flex-1 text-center border border-nona-blue/20 text-nona-blue px-4 py-3 rounded-full text-sm font-medium"
-      >
-        Facebook
-      </a>
-    </div>
     <a
       href={whatsappUrl()}
       target="_blank"

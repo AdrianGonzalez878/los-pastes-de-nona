@@ -13,7 +13,7 @@ const jumpLinks = [
 const emptyOrderUrl = whatsappUrl("Hola, quiero hacer un pedido de pastes");
 ---
 
-<section id="menu" class="py-20 sm:py-28" data-whatsapp-number={site.whatsapp.number}>
+<section id="menu" class="pt-20 pb-12 sm:py-28" data-whatsapp-number={site.whatsapp.number}>
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
     <div class="text-center mb-10" data-reveal>
       <p class="font-serif text-sm tracking-[0.3em] uppercase text-nona-blue mb-3">
@@ -221,7 +221,7 @@ const emptyOrderUrl = whatsappUrl("Hola, quiero hacer un pedido de pastes");
     }
   </div>
 
-  <div class="mt-14 mb-24 sm:mb-0 text-center px-4" data-reveal>
+  <div class="mt-10 mb-6 sm:mb-0 text-center px-4" data-reveal>
     <p data-order-hint class="text-sm text-nona-blue/60 mb-4">
       Suma lo que quieras y te armamos el mensaje para WhatsApp.
     </p>
@@ -241,20 +241,27 @@ const emptyOrderUrl = whatsappUrl("Hola, quiero hacer un pedido de pastes");
   data-order-bar
   class="pointer-events-none invisible fixed z-40 flex justify-center opacity-0 transition-all duration-300 left-3 right-3 bottom-[calc(5.25rem+env(safe-area-inset-bottom,0px))] sm:left-4 sm:right-24 sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom,0px))]"
 >
-  <div class="pointer-events-auto flex items-center gap-2 sm:gap-3 rounded-full bg-nona-blue text-cream shadow-xl pl-4 sm:pl-5 pr-2 py-2 max-w-full">
-    <p class="text-sm whitespace-nowrap">
-      <span data-order-count class="font-serif text-lg font-bold">0</span>
-      <span data-order-label> productos</span>
-    </p>
-    <a
-      data-order-whatsapp
-      href={emptyOrderUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="rounded-full bg-cream text-nona-blue-dark px-4 sm:px-5 py-2.5 text-sm font-medium hover:bg-cream-dark transition-colors whitespace-nowrap"
-    >
-      Pedir por WhatsApp
-    </a>
+  <div class="pointer-events-auto w-full max-w-lg rounded-2xl bg-nona-blue text-cream shadow-xl px-3 py-3 sm:px-4 sm:py-3">
+    <div
+      data-order-items
+      class="mb-2 flex flex-wrap gap-1.5 empty:mb-0 max-h-24 overflow-y-auto no-scrollbar"
+      aria-live="polite"
+    ></div>
+    <div class="flex items-center gap-2 sm:gap-3">
+      <p class="text-sm whitespace-nowrap shrink-0">
+        <span data-order-count class="font-serif text-lg font-bold">0</span>
+        <span data-order-label> productos</span>
+      </p>
+      <a
+        data-order-whatsapp
+        href={emptyOrderUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="ml-auto rounded-full bg-cream text-nona-blue-dark px-4 sm:px-5 py-2.5 text-sm font-medium hover:bg-cream-dark transition-colors whitespace-nowrap"
+      >
+        Pedir por WhatsApp
+      </a>
+    </div>
   </div>
 </div>
 
@@ -266,6 +273,7 @@ const emptyOrderUrl = whatsappUrl("Hola, quiero hacer un pedido de pastes");
   const cards = document.querySelectorAll<HTMLElement>("[data-order-item]");
   const links = document.querySelectorAll<HTMLAnchorElement>("[data-order-whatsapp]");
   const bar = document.querySelector<HTMLElement>("[data-order-bar]");
+  const itemsEl = document.querySelector<HTMLElement>("[data-order-items]");
   const countEl = document.querySelector("[data-order-count]");
   const labelEl = document.querySelector("[data-order-label]");
   const hint = document.querySelector("[data-order-hint]");
@@ -298,6 +306,40 @@ const emptyOrderUrl = whatsappUrl("Hola, quiero hacer un pedido de pastes");
     card.classList.toggle("border-nona-blue/40", amount > 0);
   };
 
+  const renderBarItems = () => {
+    if (!itemsEl) return;
+
+    itemsEl.replaceChildren();
+
+    selectedLines().forEach((line) => {
+      const match = line.match(/^• (\d+)x (.+)$/);
+      if (!match) return;
+
+      const amount = Number(match[1]);
+      const name = match[2];
+
+      const chip = document.createElement("div");
+      chip.className =
+        "inline-flex items-center gap-1 rounded-full bg-cream/15 pl-2.5 pr-1 py-1 text-xs sm:text-sm max-w-full";
+
+      const label = document.createElement("span");
+      label.className = "truncate";
+      label.textContent = `${amount}x ${name}`;
+
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className =
+        "shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-cream/80 hover:bg-cream/20 hover:text-cream transition-colors";
+      remove.setAttribute("aria-label", `Quitar ${name} del pedido`);
+      remove.innerHTML =
+        '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
+      remove.addEventListener("click", () => changeQty(name, -amount));
+
+      chip.append(label, remove);
+      itemsEl.append(chip);
+    });
+  };
+
   const sync = () => {
     const total = totalItems();
     const message = orderMessage();
@@ -326,6 +368,7 @@ const emptyOrderUrl = whatsappUrl("Hola, quiero hacer un pedido de pastes");
     }
 
     cards.forEach(renderCard);
+    renderBarItems();
   };
 
   const changeQty = (name: string, delta: number) => {
