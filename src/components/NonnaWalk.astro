@@ -1,0 +1,33 @@
+---
+import { photos } from "../data/photos";
+
+const pastes = [
+  { x: "4.5rem", y: "-5.5rem", delay: "0s", duration: "2.1s" },
+  { x: "6.5rem", y: "-3.2rem", delay: "0.7s", duration: "2.4s" },
+  { x: "3.2rem", y: "-6.8rem", delay: "1.3s", duration: "1.9s" },
+  { x: "7.2rem", y: "-4.6rem", delay: "1.8s", duration: "2.6s" },
+];
+---
+
+<section class="nonna-walk relative overflow-hidden bg-cream-dark/55 py-8 sm:py-10 px-4">
+  <p class="text-center font-script text-2xl sm:text-3xl text-nona-blue mb-2">
+    Nonna ya va con los pastes
+  </p>
+  <div class="nonna-walk__stage" aria-hidden="true">
+    <div class="nonna-walk__ground"></div>
+    <div class="nonna-walk__traveler">
+      <div class="nonna-walk__bob">
+        {
+          pastes.map((paste) => (
+            <span
+              class="nonna-walk__paste"
+              style={`--toss-x: ${paste.x}; --toss-y: ${paste.y}; animation-delay: ${paste.delay}; animation-duration: ${paste.duration}`}
+            >
+            </span>
+          ))
+        }
+        <img src={photos.hero.src} alt="" class="nonna-walk__figure" />
+      </div>
+    </div>
+  </div>
+</section>

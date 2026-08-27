@@ -1,12 +1,21 @@
 ---
-import { menuCategories, formatPrice } from "../data/menu";
-import { photos } from "../data/photos";
-import { whatsappUrl } from "../data/site";
+import { menuCategories } from "../data/menu";
+import { site, whatsappUrl } from "../data/site";
+
+const jumpLinks = [
+  { id: "salados", title: "Salados" },
+  { id: "estrella", title: "Estrella" },
+  { id: "dulces", title: "Dulces" },
+  { id: "extras", title: "Extras" },
+  { id: "bebidas", title: "Bebidas" },
+];
+
+const emptyOrderUrl = whatsappUrl("Hola, quiero hacer un pedido de pastes");
 ---
 
-<section id="menu" class="py-20 sm:py-28">
+<section id="menu" class="py-20 sm:py-28" data-whatsapp-number={site.whatsapp.number}>
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
-    <div class="text-center mb-14" data-reveal>
+    <div class="text-center mb-10" data-reveal>
       <p class="font-serif text-sm tracking-[0.3em] uppercase text-nona-blue mb-3">
         Nuestros sabores
       </p>
@@ -15,120 +24,210 @@ import { whatsappUrl } from "../data/site";
         <span class="font-script text-4xl sm:text-5xl lg:text-6xl font-normal">Nonna</span>
       </h2>
       <p class="text-nona-blue/70 lg:text-lg max-w-2xl mx-auto">
-        Pastes gourmet con recetas únicas: de nuestras raíces en el mole al paste estrella
-        de carne árabe.
+        Menú de pastes en Oaxaca: recetas únicas, de nuestras raíces en el mole y el
+        chocolate al paste estrella de carne árabe. Comida rápida y casera para llevar
+        o comer en sucursal. Elige lo que se te antoje y arma tu pedido.
       </p>
     </div>
 
-    <div class="mb-14 rounded-3xl overflow-hidden border border-nona-blue/10" data-reveal>
-      <img
-        src={photos.menu.src}
-        alt={photos.menu.alt}
-        class="w-full h-56 sm:h-80 object-cover"
-        loading="lazy"
-      />
-    </div>
+    <nav
+      class="mb-14 flex gap-2 overflow-x-auto no-scrollbar justify-start sm:justify-center pb-1"
+      data-reveal
+      aria-label="Categorías del menú"
+    >
+      {
+        jumpLinks.map((link) => (
+          <a
+            href={`#menu-${link.id}`}
+            class="shrink-0 rounded-full border border-nona-blue/20 bg-cream-dark/40 px-4 py-2 text-sm text-nona-blue hover:bg-nona-blue hover:text-cream hover:border-nona-blue transition-colors"
+          >
+            {link.title}
+          </a>
+        ))
+      }
+    </nav>
   </div>
 
   <div class="space-y-16">
     {
-      menuCategories.map((category) => (
-        <div data-carousel data-reveal>
-          <div class="max-w-6xl mx-auto px-4 sm:px-6 mb-6 flex items-end justify-between gap-4">
-            <div>
-              <h3 class="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-nona-blue">
-                {category.title}
-              </h3>
-              {category.subtitle && (
-                <p class="text-nona-blue/60 mt-1">{category.subtitle}</p>
+      menuCategories.map((category) => {
+        const isStar = category.id === "estrella";
+        const hasPhotos = category.items.some((item) => item.image);
+
+        return (
+          <div id={`menu-${category.id}`} class="scroll-mt-28" data-carousel data-reveal>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 mb-6 flex items-end justify-between gap-4">
+              <div>
+                <h3 class="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-nona-blue">
+                  {category.title}
+                </h3>
+              </div>
+
+              {hasPhotos && !isStar && (
+                <div class="hidden sm:flex lg:hidden gap-2 shrink-0">
+                  <button
+                    type="button"
+                    data-carousel-prev
+                    class="w-10 h-10 rounded-full border border-nona-blue/25 text-nona-blue flex items-center justify-center hover:bg-nona-blue hover:text-cream transition-colors"
+                    aria-label={`Ver anteriores de ${category.title}`}
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 19l-7-7 7-7"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    data-carousel-next
+                    class="w-10 h-10 rounded-full border border-nona-blue/25 text-nona-blue flex items-center justify-center hover:bg-nona-blue hover:text-cream transition-colors"
+                    aria-label={`Ver siguientes de ${category.title}`}
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </button>
+                </div>
               )}
             </div>
 
-            <div class="hidden sm:flex lg:hidden gap-2 shrink-0">
-              <button
-                type="button"
-                data-carousel-prev
-                class="w-10 h-10 rounded-full border border-nona-blue/25 text-nona-blue flex items-center justify-center hover:bg-nona-blue hover:text-cream transition-colors"
-                aria-label={`Ver anteriores de ${category.title}`}
-              >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-              </button>
-              <button
-                type="button"
-                data-carousel-next
-                class="w-10 h-10 rounded-full border border-nona-blue/25 text-nona-blue flex items-center justify-center hover:bg-nona-blue hover:text-cream transition-colors"
-                aria-label={`Ver siguientes de ${category.title}`}
-              >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div
-            data-carousel-track
-            class="no-scrollbar flex gap-4 overflow-x-auto snap-x scroll-smooth pb-2 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible"
-            style="padding-inline: max(1rem, calc((100vw - 72rem) / 2 + 1.5rem)); scroll-padding-inline: max(1rem, calc((100vw - 72rem) / 2 + 1.5rem))"
-          >
-            {category.items.map((item) => (
-              <article
-                class:list={[
-                  "snap-start shrink-0 w-64 sm:w-72 lg:w-auto rounded-2xl border border-nona-blue/10 bg-cream-dark/60 p-6 lg:p-7 flex flex-col justify-between hover:border-nona-blue/30 hover:shadow-md transition-all duration-300",
-                  category.id === "estrella" &&
-                    "border-nona-blue/30 bg-nona-blue/10 lg:col-span-2",
-                ]}
-              >
-                <div>
-                  <div class="flex flex-wrap items-center gap-2 mb-2">
-                    <h4 class="font-serif text-lg lg:text-xl font-semibold text-nona-blue leading-snug">
-                      {item.name}
-                    </h4>
-                    {item.tag && (
-                      <span class="bg-nona-blue text-cream text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full">
-                        {item.tag}
-                      </span>
+            {isStar ? (
+              <div class="max-w-6xl mx-auto px-4 sm:px-6">
+                {category.items.map((item) => (
+                  <article
+                    data-order-item={item.name}
+                    data-reveal="scale"
+                    class="group overflow-hidden rounded-3xl border border-nona-blue/20 bg-nona-blue text-cream lg:grid lg:grid-cols-2 hover:shadow-xl transition-shadow duration-500"
+                  >
+                    {item.image && (
+                      <div class="aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto lg:min-h-[28rem] bg-[#efeae0] overflow-hidden">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                          loading="lazy"
+                        />
+                      </div>
                     )}
-                  </div>
-                  {item.description && (
-                    <p class="text-sm text-nona-blue/60 leading-relaxed">{item.description}</p>
-                  )}
-                </div>
+                    <div class="p-8 sm:p-10 lg:p-12 flex flex-col justify-center">
+                      {item.tag && (
+                        <span class="self-start bg-cream text-nona-blue text-[10px] uppercase tracking-[0.2em] px-3 py-1 rounded-full mb-4">
+                          {item.tag}
+                        </span>
+                      )}
+                      <h4 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
+                        {item.name}
+                      </h4>
+                      {item.description && (
+                        <p class="mt-4 text-cream/80 text-base lg:text-lg leading-relaxed max-w-md">
+                          {item.description}
+                        </p>
+                      )}
+                      <div class="mt-8 flex items-center gap-3">
+                        <button
+                          type="button"
+                          data-qty-minus
+                          class="w-11 h-11 rounded-full border border-cream/40 text-cream flex items-center justify-center hover:bg-cream hover:text-nona-blue transition-colors"
+                          aria-label={`Quitar ${item.name}`}
+                        >
+                          −
+                        </button>
+                        <span data-qty-value class="min-w-8 text-center font-serif text-2xl font-bold">
+                          0
+                        </span>
+                        <button
+                          type="button"
+                          data-qty-plus
+                          class="w-11 h-11 rounded-full bg-cream text-nona-blue-dark flex items-center justify-center hover:bg-cream-dark transition-colors"
+                          aria-label={`Agregar ${item.name}`}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <div
+                data-carousel-track
+                class="no-scrollbar flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 lg:grid lg:grid-cols-3 lg:overflow-visible touch-pan-x"
+                style="padding-inline: max(1rem, calc((100% - 72rem) / 2 + 1.5rem)); scroll-padding-inline: max(1rem, calc((100% - 72rem) / 2 + 1.5rem))"
+              >
+                {category.items.map((item, index) => (
+                  <article
+                    data-order-item={item.name}
+                    data-reveal
+                    style={`--reveal-delay: ${(index % 3) * 80}ms`}
+                    class="group snap-start shrink-0 w-[min(16rem,calc(100vw-3rem))] sm:w-72 lg:w-auto rounded-2xl border border-nona-blue/10 bg-cream-dark/60 overflow-hidden flex flex-col hover:border-nona-blue/30 hover:shadow-md transition-all duration-300"
+                  >
+                    {item.image && (
+                      <div class="overflow-hidden aspect-[4/5] bg-[#efeae0]">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
 
-                <p class="mt-6">
-                  {item.price !== undefined ? (
-                    <span class="font-serif text-2xl font-bold text-nona-blue">
-                      {formatPrice(item.price)}
-                    </span>
-                  ) : (
-                    <span class="text-xs uppercase tracking-wider text-nona-blue/50">
-                      Consultar
-                    </span>
-                  )}
-                </p>
-              </article>
-            ))}
+                    <div class="p-5 lg:p-6 flex flex-col gap-2 grow">
+                      <h4 class="font-serif text-lg lg:text-xl font-semibold text-nona-blue leading-snug">
+                        {item.name}
+                      </h4>
+                      {item.description && (
+                        <p class="text-sm text-nona-blue/60 leading-relaxed">
+                          {item.description}
+                        </p>
+                      )}
+                      <div class="mt-auto pt-4 flex items-center gap-2">
+                        <button
+                          type="button"
+                          data-qty-minus
+                          class="w-9 h-9 rounded-full border border-nona-blue/25 text-nona-blue flex items-center justify-center hover:bg-nona-blue hover:text-cream transition-colors"
+                          aria-label={`Quitar ${item.name}`}
+                        >
+                          −
+                        </button>
+                        <span data-qty-value class="min-w-6 text-center font-serif text-lg font-semibold text-nona-blue">
+                          0
+                        </span>
+                        <button
+                          type="button"
+                          data-qty-plus
+                          class="w-9 h-9 rounded-full bg-nona-blue text-cream flex items-center justify-center hover:bg-nona-blue-dark transition-colors"
+                          aria-label={`Agregar ${item.name}`}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
           </div>
-        </div>
-      ))
+        );
+      })
     }
   </div>
 
-  <div class="mt-14 text-center px-4" data-reveal>
+  <div class="mt-14 mb-24 sm:mb-0 text-center px-4" data-reveal>
+    <p data-order-hint class="text-sm text-nona-blue/60 mb-4">
+      Suma lo que quieras y te armamos el mensaje para WhatsApp.
+    </p>
     <a
-      href={whatsappUrl("Hola, quiero hacer un pedido de pastes")}
+      data-order-whatsapp
+      href={emptyOrderUrl}
       target="_blank"
       rel="noopener noreferrer"
       class="inline-flex items-center gap-2 bg-nona-blue text-cream px-8 py-4 rounded-full font-medium hover:bg-nona-blue-dark transition-colors"
@@ -138,7 +237,119 @@ import { whatsappUrl } from "../data/site";
   </div>
 </section>
 
+<div
+  data-order-bar
+  class="pointer-events-none invisible fixed z-40 flex justify-center opacity-0 transition-all duration-300 left-3 right-3 bottom-[calc(5.25rem+env(safe-area-inset-bottom,0px))] sm:left-4 sm:right-24 sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom,0px))]"
+>
+  <div class="pointer-events-auto flex items-center gap-2 sm:gap-3 rounded-full bg-nona-blue text-cream shadow-xl pl-4 sm:pl-5 pr-2 py-2 max-w-full">
+    <p class="text-sm whitespace-nowrap">
+      <span data-order-count class="font-serif text-lg font-bold">0</span>
+      <span data-order-label> productos</span>
+    </p>
+    <a
+      data-order-whatsapp
+      href={emptyOrderUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="rounded-full bg-cream text-nona-blue-dark px-4 sm:px-5 py-2.5 text-sm font-medium hover:bg-cream-dark transition-colors whitespace-nowrap"
+    >
+      Pedir por WhatsApp
+    </a>
+  </div>
+</div>
+
 <script>
+  const menu = document.querySelector<HTMLElement>("#menu");
+  const phone = menu?.dataset.whatsappNumber ?? "";
+  const qty = new Map<string, number>();
+
+  const cards = document.querySelectorAll<HTMLElement>("[data-order-item]");
+  const links = document.querySelectorAll<HTMLAnchorElement>("[data-order-whatsapp]");
+  const bar = document.querySelector<HTMLElement>("[data-order-bar]");
+  const countEl = document.querySelector("[data-order-count]");
+  const labelEl = document.querySelector("[data-order-label]");
+  const hint = document.querySelector("[data-order-hint]");
+
+  const emptyMessage = "Hola, quiero hacer un pedido de pastes";
+
+  const selectedLines = () =>
+    [...qty.entries()]
+      .filter(([, amount]) => amount > 0)
+      .map(([name, amount]) => `• ${amount}x ${name}`);
+
+  const orderMessage = () => {
+    const lines = selectedLines();
+    if (!lines.length) return emptyMessage;
+    return `Hola, quiero hacer un pedido:\n\n${lines.join("\n")}`;
+  };
+
+  const whatsappHref = (message: string) =>
+    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+  const totalItems = () => [...qty.values()].reduce((sum, amount) => sum + amount, 0);
+
+  const renderCard = (card: HTMLElement) => {
+    const name = card.dataset.orderItem ?? "";
+    const amount = qty.get(name) ?? 0;
+    const value = card.querySelector("[data-qty-value]");
+    if (value) value.textContent = String(amount);
+    card.classList.toggle("ring-2", amount > 0);
+    card.classList.toggle("ring-nona-blue", amount > 0);
+    card.classList.toggle("border-nona-blue/40", amount > 0);
+  };
+
+  const sync = () => {
+    const total = totalItems();
+    const message = orderMessage();
+    const href = whatsappHref(message);
+
+    links.forEach((link) => {
+      link.href = href;
+      if (!link.closest("[data-order-bar]")) {
+        link.textContent = total > 0 ? `Hacer pedido (${total})` : "Hacer pedido";
+      }
+    });
+
+    if (countEl) countEl.textContent = String(total);
+    if (labelEl) labelEl.textContent = total === 1 ? " producto" : " productos";
+    if (hint) {
+      hint.textContent =
+        total > 0
+          ? "Tu pedido ya va listo para WhatsApp."
+          : "Suma lo que quieras y te armamos el mensaje para WhatsApp.";
+    }
+
+    if (bar) {
+      bar.classList.toggle("invisible", total === 0);
+      bar.classList.toggle("opacity-0", total === 0);
+      bar.classList.toggle("pointer-events-none", total === 0);
+    }
+
+    cards.forEach(renderCard);
+  };
+
+  const changeQty = (name: string, delta: number) => {
+    const next = Math.max(0, (qty.get(name) ?? 0) + delta);
+    if (next === 0) qty.delete(name);
+    else qty.set(name, next);
+    sync();
+  };
+
+  cards.forEach((card) => {
+    const name = card.dataset.orderItem;
+    if (!name) return;
+
+    card.querySelector("[data-qty-plus]")?.addEventListener("click", (event) => {
+      event.preventDefault();
+      changeQty(name, 1);
+    });
+
+    card.querySelector("[data-qty-minus]")?.addEventListener("click", (event) => {
+      event.preventDefault();
+      changeQty(name, -1);
+    });
+  });
+
   document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((carousel) => {
     const track = carousel.querySelector<HTMLElement>("[data-carousel-track]");
     const prev = carousel.querySelector<HTMLButtonElement>("[data-carousel-prev]");
@@ -173,4 +384,6 @@ import { whatsappUrl } from "../data/site";
     window.addEventListener("resize", syncButtons);
     syncButtons();
   });
+
+  sync();
 </script>

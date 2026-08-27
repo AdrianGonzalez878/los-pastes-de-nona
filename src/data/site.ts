@@ -2,8 +2,9 @@ export const site = {
   name: "Los Pastes de Nonna",
   shortName: "Pastes de Nonna",
   tagline: "Sabor, innovación y corazón oaxaqueño en cada relleno",
+  seoTitle: "Pastes en Oaxaca | Los Pastes de Nonna",
   description:
-    "Pastes gourmet en Oaxaca de Juárez. Recetas únicas de Nonna, ingredientes de calidad y el toque de nuestra chef. Mole, chocolate y el paste estrella de carne árabe.",
+    "Pastes en Oaxaca de Juárez: comida rápida, casera y gourmet en Los Pastes de Nonna. Recetas únicas de mole, chocolate y el paste estrella de carne árabe. Dos sucursales para pedir o comer.",
   city: "Oaxaca de Juárez, Oaxaca",
   region: "Oaxaca",
   country: "México",
@@ -11,13 +12,21 @@ export const site = {
   language: "es-MX",
   url: "https://www.lospastesdenona.com",
   keywords: [
+    "pastes en Oaxaca",
     "pastes Oaxaca",
-    "pastes gourmet",
+    "pastes Oaxaca de Juárez",
     "Los Pastes de Nonna",
+    "Pastes de Nonna",
+    "pastes de nona",
+    "pastes de nonna",
+    "comida rápida Oaxaca",
+    "comida casera Oaxaca",
+    "pastes gourmet Oaxaca",
+    "pastes artesanales Oaxaca",
+    "dónde comer pastes en Oaxaca",
     "paste carne árabe",
     "paste de mole",
     "comida oaxaqueña",
-    "pastes artesanales Oaxaca de Juárez",
     "franquicias pastes",
   ],
   whatsapp: {
@@ -26,6 +35,7 @@ export const site = {
     message: "Hola, quiero pedir pastes de Nonna",
   },
   instagram: "https://www.instagram.com/los_pastes_de_nonna",
+  instagramHandle: "@los_pastes_de_nonna",
   facebook: "https://www.facebook.com/profile.php?id=61579869712426",
   locations: [
     {

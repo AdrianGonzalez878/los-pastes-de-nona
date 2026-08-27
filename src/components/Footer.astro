@@ -12,7 +12,7 @@ const navLinks = [
 ];
 ---
 
-<footer class="bg-nona-blue-dark text-cream pt-16 pb-8">
+<footer class="bg-nona-blue-dark text-cream pt-16 pb-12 sm:pb-8">
   <div class="max-w-6xl mx-auto px-4 sm:px-6" data-reveal>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
       <div>
@@ -96,7 +96,7 @@ const navLinks = [
           rel="noopener noreferrer"
           class="block text-sm text-cream/65 hover:text-cream transition-colors mb-2"
         >
-          WhatsApp {site.whatsapp.display}
+          WhatsApp
         </a>
         <p class="text-sm text-cream/65 mb-6">{site.city}</p>
         <a
@@ -114,7 +114,7 @@ const navLinks = [
     </div>
 
     <p class="mt-6 text-center text-xs text-cream/40">
-      Powered<span class="mx-1.5">by</span>
+      Desarrollado por{" "}
       <a
         href="https://argaweb.com"
         target="_blank"
@@ -131,7 +131,7 @@ const navLinks = [
   href={whatsappUrl()}
   target="_blank"
   rel="noopener noreferrer"
-  class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+  class="fixed right-4 sm:right-6 z-50 w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))]"
   aria-label="Contactar por WhatsApp"
 >
   <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">

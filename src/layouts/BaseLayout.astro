@@ -10,7 +10,7 @@ interface Props {
 }
 
 const {
-  title = `${site.name} | Pastes gourmet en Oaxaca`,
+  title = site.seoTitle,
   description = site.description,
 } = Astro.props;
 ---
@@ -26,7 +26,7 @@ const {
     </script>
     <Analytics />
   </head>
-  <body class="antialiased">
+  <body class="antialiased overflow-x-hidden">
     <a
       href="#contenido"
       class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100] focus:bg-nona-blue focus:text-cream focus:px-4 focus:py-2 focus:rounded-full"

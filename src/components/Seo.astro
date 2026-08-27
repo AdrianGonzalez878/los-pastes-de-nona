@@ -9,7 +9,7 @@ interface Props {
 }
 
 const {
-  title = `${site.name} | Pastes gourmet en Oaxaca`,
+  title = site.seoTitle,
   description = site.description,
   image = "/og-image.jpg",
 } = Astro.props;
@@ -26,27 +26,53 @@ const jsonLd = {
       "@id": `${site.url}/#website`,
       url: `${site.url}/`,
       name: site.name,
+      alternateName: ["Pastes de Nonna", "Pastes de Nona", "Los Pastes de Nona"],
       description: site.description,
       inLanguage: site.language,
       publisher: { "@id": `${site.url}/#business` },
     },
     {
-      "@type": ["Bakery", "FoodEstablishment"],
+      "@type": "WebPage",
+      "@id": `${site.url}/#webpage`,
+      url: `${site.url}/`,
+      name: title,
+      description,
+      inLanguage: site.language,
+      isPartOf: { "@id": `${site.url}/#website` },
+      about: { "@id": `${site.url}/#business` },
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        url: imageUrl,
+      },
+    },
+    {
+      "@type": ["Bakery", "FastFoodRestaurant", "FoodEstablishment"],
       "@id": `${site.url}/#business`,
       name: site.name,
-      alternateName: site.shortName,
+      alternateName: ["Pastes de Nonna", "Pastes de Nona", "Los Pastes de Nona"],
       description: site.description,
       url: `${site.url}/`,
       image: [absoluteUrl("/logo.png"), imageUrl, absoluteUrl("/fotos/fachada.jpg")],
       logo: absoluteUrl("/android-chrome-512x512.png"),
       telephone: `+${site.whatsapp.number}`,
       priceRange: "$",
-      servesCuisine: ["Mexicana", "Oaxaqueña", "Pastes"],
+      currenciesAccepted: "MXN",
+      paymentAccepted: "Efectivo, Tarjeta",
+      servesCuisine: ["Mexicana", "Oaxaqueña", "Pastes", "Comida rápida", "Comida casera"],
+      knowsAbout: [
+        "Pastes en Oaxaca",
+        "Pastes gourmet",
+        "Comida rápida en Oaxaca",
+        "Comida casera oaxaqueña",
+        "Paste de mole",
+        "Paste de carne árabe",
+      ],
+      keywords: site.keywords.join(", "),
       slogan: site.tagline,
       areaServed: {
         "@type": "City",
         name: "Oaxaca de Juárez",
-        containedInPlace: { "@type": "State", name: "Oaxaca" },
+        containedInPlace: { "@type": "State", name: "Oaxaca", containedInPlace: { "@type": "Country", name: "México" } },
       },
       address: {
         "@type": "PostalAddress",
@@ -63,9 +89,18 @@ const jsonLd = {
       openingHours: site.locations.map((location) => location.hoursSchema),
       sameAs: [site.instagram, site.facebook],
       menu: `${site.url}/#menu`,
+      acceptsReservations: "False",
+      potentialAction: {
+        "@type": "OrderAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `https://wa.me/${site.whatsapp.number}`,
+          actionPlatform: ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"],
+        },
+      },
       hasMenu: {
         "@type": "Menu",
-        name: `Menú de ${site.name}`,
+        name: `Menú de pastes en Oaxaca — ${site.name}`,
         hasMenuSection: menuCategories.map((category) => ({
           "@type": "MenuSection",
           name: category.title,
@@ -73,13 +108,7 @@ const jsonLd = {
             "@type": "MenuItem",
             name: item.name,
             description: item.description,
-            offers: item.price
-              ? {
-                  "@type": "Offer",
-                  price: item.price,
-                  priceCurrency: "MXN",
-                }
-              : undefined,
+            image: item.image ? absoluteUrl(item.image) : undefined,
           })),
         })),
       },
@@ -91,6 +120,7 @@ const jsonLd = {
         url: location.mapUrl,
         hasMap: location.mapUrl,
         openingHours: location.hoursSchema,
+        servesCuisine: ["Pastes", "Mexicana", "Oaxaqueña"],
         geo: {
           "@type": "GeoCoordinates",
           latitude: location.lat,
@@ -109,7 +139,7 @@ const jsonLd = {
 ---
 
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>{title}</title>
 <meta name="description" content={description} />
 <meta name="keywords" content={site.keywords.join(", ")} />
@@ -123,6 +153,7 @@ const jsonLd = {
 
 <meta property="og:type" content="website" />
 <meta property="og:locale" content={site.locale} />
+<meta property="og:locale:alternate" content="es_ES" />
 <meta property="og:site_name" content={site.name} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
@@ -136,7 +167,7 @@ const jsonLd = {
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageUrl} />
-<meta name="twitter:image:alt" content={`${site.name} — pastes gourmet en Oaxaca`} />
+<meta name="twitter:image:alt" content={`${site.name} — pastes en Oaxaca de Juárez`} />
 
 <meta name="theme-color" content={themeColor} />
 <meta name="msapplication-TileColor" content={themeColor} />

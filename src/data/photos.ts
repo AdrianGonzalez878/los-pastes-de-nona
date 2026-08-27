@@ -11,6 +11,10 @@ export const photos = {
     src: "/fotos/caja-pastes.jpg",
     alt: "Caja de pastes recién horneados",
   },
+  franchise: {
+    src: "/fotos/fachada.jpg",
+    alt: "Fachada del local de Los Pastes de Nonna en Oaxaca de Juárez",
+  },
   gallery: [
     {
       src: "/fotos/paste-vidrio.jpg",

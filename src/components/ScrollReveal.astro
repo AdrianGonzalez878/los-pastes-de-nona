@@ -65,8 +65,9 @@
         window.lenis.on("scroll", onScroll);
         return;
       }
-      requestAnimationFrame(bindLenis);
+      if (lenisTries++ < 90) requestAnimationFrame(bindLenis);
     };
+    let lenisTries = 0;
     bindLenis();
 
     check();

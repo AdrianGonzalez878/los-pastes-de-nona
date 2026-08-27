@@ -54,6 +54,12 @@ const words = text.split(/\s+/).filter(Boolean);
   const blocks = document.querySelectorAll("[data-text-reveal]");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  declare global {
+    interface Window {
+      lenis?: { on: (event: string, cb: () => void) => void };
+    }
+  }
+
   if (blocks.length && !reduceMotion) {
     const update = () => {
       blocks.forEach((block) => {
@@ -84,6 +90,15 @@ const words = text.split(/\s+/).filter(Boolean);
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
+    const bindLenis = () => {
+      if (window.lenis?.on) {
+        window.lenis.on("scroll", onScroll);
+        return;
+      }
+      if (lenisTries++ < 90) requestAnimationFrame(bindLenis);
+    };
+    let lenisTries = 0;
+    bindLenis();
     update();
   }
 </script>

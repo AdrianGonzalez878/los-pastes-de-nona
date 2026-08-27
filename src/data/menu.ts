@@ -1,7 +1,7 @@
 export interface MenuItem {
   name: string;
   description?: string;
-  price?: number;
+  image?: string;
   tag?: string;
 }
 
@@ -20,28 +20,32 @@ export const menuCategories: MenuCategory[] = [
       {
         name: "Hawaiano",
         description: "Jamón, queso y piña",
-        price: 45,
+        image: "/fotos/menu/hawaiano.jpg",
       },
       {
         name: "Mole negro",
-        price: 42,
+        description: "Mole negro oaxaqueño",
+        image: "/fotos/menu/mole-negro.jpg",
       },
       {
         name: "Carne con papas",
-        price: 45,
+        description: "Carne y papa",
+        image: "/fotos/menu/carne-con-papas.jpg",
       },
       {
         name: "Atún a la vizcaína",
-        price: 47,
+        description: "Atún a la vizcaína",
+        image: "/fotos/menu/atun-vizcaina.jpg",
       },
       {
         name: "Champiñones al ajillo con queso",
-        price: 40,
+        description: "Champiñones al ajillo y queso",
+        image: "/fotos/menu/champinones-ajillo.jpg",
       },
       {
         name: "Choriqueso",
         description: "Chorizo con queso",
-        price: 45,
+        image: "/fotos/menu/choriqueso.jpg",
       },
     ],
   },
@@ -51,7 +55,8 @@ export const menuCategories: MenuCategory[] = [
     items: [
       {
         name: "Carne árabe con queso",
-        price: 45,
+        description: "El favorito de la casa: carne árabe y queso fundido",
+        image: "/fotos/menu/carne-arabe.jpg",
         tag: "Estrella",
       },
     ],
@@ -61,25 +66,34 @@ export const menuCategories: MenuCategory[] = [
     title: "Pastes dulces",
     items: [
       {
+        name: "Chocolate oaxaqueño",
+        description: "Chocolate tradicional de Oaxaca",
+        image: "/fotos/menu/chocolate-oaxaqueno.jpg",
+      },
+      {
         name: "Dulce de leche con queso crema",
-        price: 40,
+        description: "Dulce de leche y queso crema",
+        image: "/fotos/menu/dulce-de-leche.jpg",
       },
       {
         name: "Nutella con queso crema",
-        price: 41,
+        description: "Nutella y queso crema",
+        image: "/fotos/menu/nutella-queso-crema.jpg",
       },
       {
         name: "Manzana canela",
-        price: 39,
+        description: "Manzana con canela",
+        image: "/fotos/menu/manzana-canela.jpg",
       },
       {
         name: "Queso crema con zarzamora",
-        price: 39,
+        description: "Queso crema y zarzamora",
+        image: "/fotos/menu/queso-crema-zarzamora.jpg",
       },
       {
         name: "Fresa Turín",
-        price: 49,
-        tag: "Nuevo",
+        description: "Fresa y chocolate Turín",
+        image: "/fotos/menu/fresa-turin.jpg",
       },
     ],
   },
@@ -87,9 +101,18 @@ export const menuCategories: MenuCategory[] = [
     id: "extras",
     title: "Extras",
     items: [
-      { name: "Chimichurri", price: 8 },
-      { name: "Macha", price: 8 },
-      { name: "Catsup / Valentina", price: 8 },
+      {
+        name: "Chimichurri",
+        image: "/fotos/menu/chimichurri.jpg",
+      },
+      {
+        name: "Macha",
+        image: "/fotos/menu/salsa-macha.jpg",
+      },
+      {
+        name: "Catsup / Valentina",
+        image: "/fotos/menu/catsup-valentina.jpg",
+      },
     ],
   },
   {
@@ -97,33 +120,29 @@ export const menuCategories: MenuCategory[] = [
     title: "Bebidas",
     items: [
       {
-        name: "Agua embotellada 600 ml",
-        price: 20,
-      },
-      {
         name: "Café americano",
-        price: 24,
-      },
-      {
-        name: "Refresco",
-        price: 25,
+        image: "/fotos/menu/cafe-americano.jpg",
       },
       {
         name: "Soda italiana fresa",
-        description: "Próximamente en menú impreso",
-        price: 75,
-        tag: "Nuevo",
+        image: "/fotos/menu/soda-italiana-fresa.jpg",
       },
       {
         name: "Soda italiana manzana verde",
-        description: "Próximamente en menú impreso",
-        price: 75,
-        tag: "Nuevo",
+        image: "/fotos/menu/soda-italiana-manzana.jpg",
+      },
+      {
+        name: "Agua embotellada 600 ml",
+        image: "/fotos/menu/agua.jpg",
+      },
+      {
+        name: "Refresco",
+        image: "/fotos/menu/refrescos.jpg",
       },
     ],
   },
 ];
 
-export function formatPrice(price: number) {
-  return `$${price}`;
-}
+export const pasteCount = menuCategories
+  .filter((category) => ["salados", "estrella", "dulces"].includes(category.id))
+  .reduce((total, category) => total + category.items.length, 0);
